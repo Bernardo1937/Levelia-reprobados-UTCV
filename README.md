@@ -1,2 +1,3 @@
 # Levelia-reprobados-UTCV
-Vamos a reprobar, ayuda
+Vamos a reprobar, ayuda   
+pasa el diccionario
