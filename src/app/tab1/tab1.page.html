@@ -1,17 +1,79 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>🌟Levelia🌟</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleSearchBar()">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Barra de búsqueda -->
+  <ion-toolbar *ngIf="showSearch">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="updateSearchResults()"
+      debounce="300"
+      placeholder="Buscar juegos o aplicaciones"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Filtros -->
+  <ion-toolbar>
+    <ion-select [(ngModel)]="selectedPlatform" placeholder="Filtrar por plataforma">
+      <ion-select-option value="PC">PC</ion-select-option>
+      <ion-select-option value="PS5">PS5</ion-select-option>
+      <ion-select-option value="Xbox">Xbox</ion-select-option>
+    </ion-select>
+
+    <ion-select [(ngModel)]="priceRange" placeholder="Filtrar por precio">
+      <ion-select-option value="0-20">Menos de $20</ion-select-option>
+      <ion-select-option value="20-50">De $20 a $50</ion-select-option>
+      <ion-select-option value="50-100">De $50 a $100</ion-select-option>
+      <ion-select-option value="100+">Más de $100</ion-select-option>
+    </ion-select>
+  </ion-toolbar>
+
+  <!-- Ofertas destacadas -->
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Ofertas destacadas</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="4" *ngFor="let game of filteredGames">
+        <ion-card (click)="toggleFavorite(game)">
+          <ion-img [src]="game.image"></ion-img>
+          <ion-card-header>
+            <ion-card-title>{{ game.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-label>{{ game.price | currency }}</ion-label>
+            <ion-button
+              [color]="game.isFavorite ? 'primary' : 'medium'"
+              fill="outline"
+              slot="end"
+              (click)="toggleFavorite(game)"
+            >
+              <ion-icon name="heart" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Carrito de compras (simple ejemplo) -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="viewCart()">
+      <ion-icon name="cart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
