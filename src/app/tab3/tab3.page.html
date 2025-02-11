@@ -1,15 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
 
-    <!-- Botón del Menú (Inicio) -->
+    <!-- Boton del Menu (Inicio) -->
     <ion-buttons slot="start">
       <ion-menu-button auto-hide="false"></ion-menu-button>
     </ion-buttons>
 
-    <!-- Título Centrado -->
+    <!-- Titulo Centrado -->
     <ion-title>Levelia</ion-title>
 
-    <!-- Botón de Búsqueda (Lupa) -->
+    <!-- Boton de Busqueda (Lupa) -->
     <ion-buttons slot="end">
       <ion-button (click)="toggleSearchBar()">
         <ion-icon name="search"></ion-icon>
@@ -18,12 +18,12 @@
 
   </ion-toolbar>
 
-  <!-- Barra de Búsqueda + Historial -->
+  <!-- Barra de Busqueda + Historial -->
   <ion-toolbar *ngIf="showSearch">
     <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="updateSearchHistory()"></ion-searchbar>
   </ion-toolbar>
 
-  <!-- Historial de Búsqueda -->
+  <!-- Historial de Busqueda -->
   <ion-list *ngIf="showSearch">
     <ion-item *ngFor="let item of searchHistory" (click)="selectSearch(item)">
       {{ item }}
