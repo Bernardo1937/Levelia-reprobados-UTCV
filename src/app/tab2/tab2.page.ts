@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FavoriteService } from '../../app/favorite.service';  // Importamos el servicio
 
 @Component({
   selector: 'app-tab2',
@@ -7,7 +8,9 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class Tab2Page {
+  favoriteGames: any[] = [];
 
-  constructor() {}
-
+  constructor(private favoriteService: FavoriteService) {
+    this.favoriteGames = this.favoriteService.getFavoriteGames();  // Obtenemos los favoritos del servicio
+  }
 }

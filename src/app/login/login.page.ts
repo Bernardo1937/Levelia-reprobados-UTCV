@@ -6,11 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.page.scss'],
   standalone: false,
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  email: string = '';
+  password: string = '';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  login() {
+    console.log('Email:', this.email);
+    console.log('Password:', this.password);
   }
 
+  goToRegister() {
+    console.log('Ir a registro');
+  }
 }

@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'game-detail',
     loadChildren: () => import('./game-detail/game-detail.module').then(m => m.GameDetailPageModule)
   },
+  {
+    path: 'favorite.service',
+    loadChildren: () => import('../app/favorite.service').then(m => m.FavoriteService)
+  },
 ];
 
 @NgModule({

@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { GameDetailPage } from '../game-detail/game-detail.page';
+import { FavoriteService } from '../../app/favorite.service'; // Importamos el servicio
+import { Router } from '@angular/router';  // Importamos el router
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  standalone:false,
+  standalone: false,
 })
 export class Tab1Page {
   showSearch = false;
@@ -14,6 +16,7 @@ export class Tab1Page {
   selectedPlatform: string = '';
   priceRange: string = '';
   filteredGames: any[] = [];
+  favoriteGames: any[] = []; // Array para almacenar los juegos favoritos
 
   // Juegos destacados para el carrusel
   featuredGames = [
@@ -40,7 +43,11 @@ export class Tab1Page {
 
   cart: any[] = [];
 
-  constructor(private modalController: ModalController) {
+  constructor(
+    private modalController: ModalController,
+    private favoriteService: FavoriteService,
+    private router: Router // Inyectamos Router
+  ) {
     this.filteredGames = [...this.allGames];
   }
 
@@ -49,14 +56,13 @@ export class Tab1Page {
     this.searchQuery = '';
     this.filteredGames = [...this.allGames];
   }
-
+  
   updateSearchResults() {
+    const query = this.searchQuery.toLowerCase().trim();
     this.filteredGames = this.allGames.filter(game =>
-      game.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      game.name.toLowerCase().includes(query)
     );
-    this.applyFilters();
   }
-
   applyFilters() {
     let games = [...this.allGames];
 
@@ -74,30 +80,27 @@ export class Tab1Page {
     this.filteredGames = games;
   }
 
-  toggleFavorite(game: any) {
+  toggleFavorite(game: any, event: any) {
     game.isFavorite = !game.isFavorite;
     if (game.isFavorite) {
-      this.addFavorite(game);
+      this.favoriteGames.push(game); // Agregar el juego a favoritos
     } else {
-      this.removeFavorite(game);
+      const index = this.favoriteGames.indexOf(game);
+      if (index > -1) {
+        this.favoriteGames.splice(index, 1); // Eliminar el juego de favoritos
+      }
     }
-  }
-
-  addFavorite(game: any) {
-    console.log(`Juego añadido a favoritos: ${game.name}`);
-  }
-
-  removeFavorite(game: any) {
-    console.log(`Juego eliminado de favoritos: ${game.name}`);
+    event.stopPropagation(); // Evitar que el evento llegue al ion-card
   }
 
   viewCart() {
     console.log(this.cart);
   }
 
+  // Función para redirigir a la página de login
   login() {
     console.log('Iniciar sesión...');
-    // Aquí puedes redirigir a una página de login o realizar cualquier acción
+    this.router.navigate(['/login']); // Redirige al login
   }
 
   async openGameDetail(game: any) {
